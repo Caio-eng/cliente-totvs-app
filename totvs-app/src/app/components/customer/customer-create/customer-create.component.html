@@ -1,0 +1,77 @@
+<div class="container  responsive" >
+  <form [formGroup]="form" class="form" >
+
+    <h1 class="fullWidth table-header">
+      {{ customer.id ? "Atualizar Cliente" : "Cadastrar Cliente" }}
+    </h1>
+
+    <mat-form-field class="fullWidth" appearance="fill">
+      <mat-label>Nome</mat-label>
+      <input
+        formControlName="nome"
+        required
+        matInput
+        placeholder="Ex.. fulano de tal"
+      />
+      <mat-icon matSuffix>place</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field class="fullWidth" appearance="fill">
+      <mat-label>CPF</mat-label>
+      <input formControlName="cpf" mask="000.000.000-00" matInput placeholder="Ex.. 581.299.143-26">
+      <mat-icon matSuffix>123</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field class="fullWidth" appearance="fill">
+      <mat-label>Endereço</mat-label>
+      <input
+        formControlName="endereco"
+        matInput
+        placeholder="Ex.. Rua.xx"
+      />
+      <mat-icon matSuffix>place</mat-icon>
+    </mat-form-field>
+
+    <button
+      (click)="onSubmit()"
+      [disabled]="!form.valid || ((loadingService.isLoading$ | async))"
+      class="fullWidth mat-elevation-z4 button-crud"
+      mat-flat-button
+      color="primary"
+      *ngIf="!customer.id"
+    >
+      Cadastrar
+    </button>
+    <button
+      (click)="onSubmit()"
+      [disabled]="!form.valid || ((loadingService.isLoading$ | async))"
+      class="fullWidth mat-elevation-z4 button-crud"
+      mat-flat-button
+      color="primary"
+      *ngIf="customer.id"
+    >
+      Atualizar
+    </button>
+    <button
+      routerLink="../"
+      class="fullWidth mat-elevation-z4 button-crud"
+      mat-flat-button
+      color="warn"
+      *ngIf="!customer.id"
+    >
+      Cancelar
+    </button>
+    <button
+      routerLink="../../"
+      class="fullWidth mat-elevation-z4 button-crud"
+      mat-flat-button
+      color="warn"
+      *ngIf="customer.id"
+    >
+      Cancelar
+    </button>
+  </form>
+  <div class="spinner-container" *ngIf="loadingService.isLoading$ | async">
+    <mat-spinner [diameter]="50"></mat-spinner>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<mat-sidenav-container autosize class="base-container">
+  <div class="app-bar">
+    <div class="app-title">
+      <app-header></app-header>
+    </div>
+    <div class="drawer-button">
+      <button class="menu" (click)="toggleDrawer()" mat-icon-button>
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <mat-sidenav #sidenav mode="side" class="nav-list" [@drawerState]="isDrawerOpen ? 'open' : 'closed'" >
+    <mat-nav-list >
+      <a mat-list-item routerLink="customer" (click)="toggleDrawer()">
+        <div>
+          <i class="material-icons" *ngIf="isWideScreen">people</i>
+          <span>Clientes</span>
+        </div>
+      </a>
+
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <div class="example-sidenav-content" (click)="closeDrawer()">
+    <router-outlet></router-outlet>
+  </div>
+</mat-sidenav-container>

@@ -1,0 +1,126 @@
+html,
+body {
+  height: 100vh;
+}
+
+.app-bar {
+  display: flex;
+
+  padding: 0 1rem;
+  background-color: #279B48;
+  color: white;
+  position: fixed;
+  height: 4rem;
+  width: 100vw;
+  z-index: 2;
+}
+
+.app-title {
+  order: 2;
+  text-align: center;
+  flex-grow: 1;
+}
+
+.drawer-button {
+  order: 1;
+}
+
+.nav-list {
+  display: flex;
+  background-color: white;
+  flex-direction: column;
+  position: fixed;
+  top: 4rem;
+  height: calc(100% - 4rem);
+  flex-grow: 1;
+}
+
+.nav-list a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.nav-list a div {
+  color: #3f51b5;
+  display: flex;
+  align-items: center;
+}
+
+.nav-list a div > span {
+  margin-left: 1rem;
+  color: black;
+}
+
+img {
+  width: 100%;
+  height: auto;
+  margin: 0.8rem auto 1rem auto;
+}
+
+.sidenav i {
+  color: grey;
+  margin-right: 0.6rem;
+}
+
+.menu {
+  color: white;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+.separator {
+  font-weight: 200;
+}
+
+.material-icons {
+  width: 24px !important;
+}
+
+.example-sidenav-content {
+  overflow-y: auto;
+  padding-top: 5rem;
+}
+
+
+:host {
+  .mat-sidenav {
+    width: 15vw; /* Tamanho para tela vertical */
+  }
+}
+
+@media (max-width: 1200px) {
+  :host {
+    .mat-sidenav {
+      width: 20vw; /* Tamanho para tela horizontal */
+    }
+  }
+}
+
+
+@media (max-width: 900px) {
+  :host {
+    .mat-sidenav {
+      width: 30vw; /* Tamanho para tela horizontal */
+    }
+  }
+}
+
+
+@media (max-width: 600px) {
+  :host {
+    .mat-sidenav {
+      width: 45vw; /* Tamanho para tela horizontal */
+    }
+  }
+}
+
+@media (max-width: 325px) {
+  .nav-list a {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+

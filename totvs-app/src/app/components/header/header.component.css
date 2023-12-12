@@ -1,0 +1,30 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 4rem;
+}
+
+div {
+  height: 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+}
+
+img {
+  margin-right: 2rem;
+}
+
+h1 {
+  margin-left: 2rem !important;
+  cursor: pointer;
+}
+
+
+h1:hover {
+  margin-left: 2rem !important;
+  color: #FFEEAD;
+  cursor: pointer;
+}
