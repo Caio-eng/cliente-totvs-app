@@ -109,8 +109,11 @@ public class Cliente implements Serializable {
 	}
 
 	public void setTelefones(List<Telefone> telefones) {
-		this.telefones = telefones;
-	}
+        if (telefones != null) {
+            this.telefones.clear();
+            this.telefones.addAll(telefones);
+        }
+    }
 
 	@Override
 	public int hashCode() {

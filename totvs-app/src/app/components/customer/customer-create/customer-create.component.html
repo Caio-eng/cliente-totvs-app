@@ -57,7 +57,7 @@
 
     <button
       (click)="onSubmit()"
-      [disabled]="!form.valid || ((loadingService.isLoading$ | async))"
+      [disabled]="!form.valid"
       class="fullWidth mat-elevation-z4 button-crud"
       mat-flat-button
       color="primary"
@@ -67,7 +67,7 @@
     </button>
     <button
       (click)="onSubmit()"
-      [disabled]="!form.valid || ((loadingService.isLoading$ | async))"
+      [disabled]="!form.valid"
       class="fullWidth mat-elevation-z4 button-crud"
       mat-flat-button
       color="primary"

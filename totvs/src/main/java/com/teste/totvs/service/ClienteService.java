@@ -40,8 +40,13 @@ public class ClienteService {
 		}
 
 		validarCaracteresTelefone( cliente.getTelefones() );
+		
+		if ( cliente.getTelefones().isEmpty() ) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Telefone não pode ser vazio ");
+		}
 
 		for ( Telefone telefone : cliente.getTelefones() ) {
+			
 			Optional<Cliente> clienteComTelefone = clienteRepository.findByTelefonesNumero( telefone.getNumero() );
 			if ( clienteComTelefone.isPresent() && !clienteComTelefone.get().getId().equals( cliente.getId() ) ) {
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Telefone já vinculado a outro cliente." );
@@ -67,14 +72,16 @@ public class ClienteService {
 		clienteExistente.setBairro( clienteAtualizado.getBairro() );
 
 		List<Telefone> telefonesAtualizados = clienteAtualizado.getTelefones();
+		
+		if ( telefonesAtualizados.isEmpty() ) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Telefone não pode ser vazio ");
+		}
 		for ( Telefone telefone : telefonesAtualizados ) {
-			if ( telefone.getId() != null ) {
-				Telefone telefoneExistente = clienteExistente.getTelefones().stream()
-						.filter( t -> t.getId().equals( telefone.getId() ) ).findFirst()
-						.orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Telefone não encontrado: " + telefone.getId() ) );
+			
+			Telefone telefoneExistente = clienteExistente.getTelefones().stream().findFirst()
+					.orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Telefone não encontrado: " + telefone.getId() ) );
 
-				telefoneExistente.setNumero( telefone.getNumero() );
-			}
+			telefoneExistente.setNumero( telefone.getNumero() );
 		}
 
 		validarCaracteresTelefone( clienteExistente.getTelefones() );
