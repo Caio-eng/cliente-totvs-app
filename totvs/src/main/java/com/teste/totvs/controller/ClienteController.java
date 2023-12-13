@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.teste.totvs.model.Cliente;
+import com.teste.totvs.model.Telefone;
 import com.teste.totvs.service.ClienteService;
 
 import jakarta.validation.Valid;
@@ -29,33 +30,40 @@ public class ClienteController {
 
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Cliente> listarPeloId(@PathVariable Long id) {
-		Cliente cliente = clienteService.listarPeloId( id );
-		return ResponseEntity.ok().body( cliente );
+		Cliente cliente = clienteService.listarPeloId(id);
+		return ResponseEntity.ok().body(cliente);
 	}
 
 	@GetMapping
 	public ResponseEntity<List<Cliente>> listarTodos() {
 		List<Cliente> list = clienteService.listarTodos();
-		return ResponseEntity.ok().body( list );
+		return ResponseEntity.ok().body(list);
 	}
 
 	@PostMapping
-    public ResponseEntity<Cliente> cadastrarCliente(@RequestBody @Valid Cliente cliente, UriComponentsBuilder uriBuilder) {
-        URI location = uriBuilder.path("/clientes/{id}").buildAndExpand(cliente.getId()).toUri();
-        clienteService.salvarCliente(cliente);
-        return ResponseEntity.created(location).build();
-    }
+	public ResponseEntity<Cliente> cadastrarCliente(@RequestBody @Valid Cliente cliente,
+			UriComponentsBuilder uriBuilder) {
+		for (Telefone telefone : cliente.getTelefones()) {
+	        telefone = Telefone.fromString(telefone.getNumero());
+	    }
+		URI location = uriBuilder.path("/clientes/{id}").buildAndExpand(cliente.getId()).toUri();
+		clienteService.salvarCliente(cliente);
+		return ResponseEntity.created(location).build();
+	}
 
-	@PutMapping("/{clienteId}")
-	public ResponseEntity<Cliente> atualizarCliente(@PathVariable Long clienteId,
+	@PutMapping("/{id}")
+	public ResponseEntity<Cliente> atualizarCliente(@PathVariable @Valid Long id,
 			@RequestBody @Valid Cliente clienteAtualizado) {
-		Cliente clienteAtualizadoNoBanco = clienteService.atualizarCliente( clienteId, clienteAtualizado );
-		return ResponseEntity.ok( clienteAtualizadoNoBanco );
+		for (Telefone telefone : clienteAtualizado.getTelefones()) {
+	        telefone = Telefone.fromString(telefone.getNumero());
+	    }
+		Cliente clienteAtualizadoNoBanco = clienteService.atualizarCliente(id, clienteAtualizado);
+		return ResponseEntity.ok(clienteAtualizadoNoBanco);
 	}
 
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Cliente> deletarCliente(@PathVariable Long id) {
-		clienteService.deletarCliente( id );
+		clienteService.deletarCliente(id);
 		return ResponseEntity.noContent().build();
 	}
 }

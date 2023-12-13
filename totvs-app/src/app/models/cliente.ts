@@ -3,4 +3,10 @@ export interface Cliente {
   nome: string;
   cpf?: string;
   endereco?: string;
+  bairro?: string;
+  telefones?: Telefone[];
+}
+
+export interface Telefone {
+  numero: string;
 }

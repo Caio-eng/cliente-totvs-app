@@ -24,7 +24,10 @@ export class CustomerDeleteComponent {
     private route: ActivatedRoute
   ) {
     this.form = new FormGroup({
-      nome: new FormControl()
+      nome: new FormControl(),
+      cpf: new FormControl(),
+      endereco: new FormControl(),
+      bairro: new FormControl(),
     })
    }
 
@@ -38,7 +41,10 @@ export class CustomerDeleteComponent {
     this.service.findById(this.customer.id).subscribe(response => {
       this.customer = response;
       this.form.patchValue({
-        nome: this.customer.nome
+        nome: this.customer.nome,
+        cpf: this.customer.cpf,
+        endereco: this.customer.endereco,
+        bairro: this.customer.bairro
       });
       this.form.disable();
       this.loadingService.setLoading(false);

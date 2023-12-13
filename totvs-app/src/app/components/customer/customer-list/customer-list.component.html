@@ -32,6 +32,21 @@
             <td mat-cell *matCellDef="let element"> {{element.endereco}} </td>
           </ng-container>
 
+          <ng-container matColumnDef="bairro">
+            <th mat-header-cell *matHeaderCellDef> Bairro </th>
+            <td mat-cell *matCellDef="let element"> {{element.bairro}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="telefones">
+            <th mat-header-cell *matHeaderCellDef>Telefones</th>
+            <td mat-cell *matCellDef="let element">
+              <div *ngFor="let telefone of element.telefones">
+                {{ telefone.numero }}
+                <br>
+              </div>
+            </td>
+          </ng-container>
+
           <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef>Ações</th>
             <td mat-cell *matCellDef="let element">
@@ -48,6 +63,11 @@
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+              Nenhum registro encontrado.
+            </td>
+          </tr>
         </table>
 
         <mat-paginator [pageSizeOptions]="[5, 10, 20]"

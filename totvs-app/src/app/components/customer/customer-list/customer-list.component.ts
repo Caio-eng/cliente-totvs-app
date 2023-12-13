@@ -3,16 +3,8 @@ import { Cliente } from '../../../models/cliente';
 import { Component, HostListener, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { replaceNullAndEmptyWithNA } from 'src/app/utils/empty-handler.utils';
-import { isNearBottom } from '../../../utils/scroll.utils';
-import { LoadingService } from 'src/app/services/loading.service';
-import { formatDate } from 'src/app/utils/date.utils';
 
 
-interface CustomerTypeOption {
-  value: string;
-  label: string;
-}
 @Component({
   selector: 'app-customer-list',
   templateUrl: './customer-list.component.html',
@@ -22,7 +14,7 @@ export class CustomerListComponent {
 
   ELEMENT_DATA: Cliente[] = [];
 
-  displayedColumns: string[] = ['nome','cpf','endereco','actions'];
+  displayedColumns: string[] = ['nome','cpf','endereco', 'bairro', 'telefones', 'actions'];
   dataSource = new MatTableDataSource<Cliente>(this.ELEMENT_DATA);
 
   @ViewChild(MatPaginator)
@@ -38,10 +30,13 @@ export class CustomerListComponent {
 
   findAll() {
     this.service.findAll().subscribe(response => {
-      this.ELEMENT_DATA = response
-      this.dataSource = new MatTableDataSource<Cliente>(response);
+      this.ELEMENT_DATA = response.map(customer => ({
+        ...customer,
+        telefones: customer.telefones || []
+      }));
+      this.dataSource = new MatTableDataSource<Cliente>(this.ELEMENT_DATA);
       this.dataSource.paginator = this.paginator;
-    })
+    });
   }
 
   applyFilter(event: Event) {

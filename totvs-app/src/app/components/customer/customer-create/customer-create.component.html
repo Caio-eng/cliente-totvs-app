@@ -13,12 +13,12 @@
         matInput
         placeholder="Ex.. fulano de tal"
       />
-      <mat-icon matSuffix>place</mat-icon>
+      <mat-icon matSuffix>description</mat-icon>
     </mat-form-field>
 
     <mat-form-field class="fullWidth" appearance="fill">
       <mat-label>CPF</mat-label>
-      <input formControlName="cpf" mask="000.000.000-00" matInput placeholder="Ex.. 581.299.143-26">
+      <input formControlName="cpf" mask="000.000.000-00" required matInput placeholder="Ex.. 581.299.143-26">
       <mat-icon matSuffix>123</mat-icon>
     </mat-form-field>
 
@@ -31,6 +31,29 @@
       />
       <mat-icon matSuffix>place</mat-icon>
     </mat-form-field>
+
+    <mat-form-field class="fullWidth" appearance="fill">
+      <mat-label>Bairro</mat-label>
+      <input
+        formControlName="bairro"
+        matInput
+        placeholder="Ex.. Centro"
+      />
+      <mat-icon matSuffix>place</mat-icon>
+    </mat-form-field>
+
+    <div formArrayName="telefones">
+      <div *ngFor="let telefone of telefonesFormArray.controls; let i = index">
+        <mat-form-field appearance="fill">
+          <mat-label>Telefone {{ i + 1 }}</mat-label>
+          <input matInput formControlName="{{ i }}" mask="000000-0000" required placeholder="Número de telefone" />
+          <button mat-icon-button (click)="removeTelefone(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <button mat-raised-button type="button" (click)="addTelefone()">Adicionar Telefone</button>
+    </div>
 
     <button
       (click)="onSubmit()"
@@ -71,7 +94,5 @@
       Cancelar
     </button>
   </form>
-  <div class="spinner-container" *ngIf="loadingService.isLoading$ | async">
-    <mat-spinner [diameter]="50"></mat-spinner>
-  </div>
+
 </div>

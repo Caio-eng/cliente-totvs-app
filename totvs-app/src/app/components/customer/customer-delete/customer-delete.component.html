@@ -6,6 +6,24 @@
 <mat-form-field class="fullWidth" appearance="fill">
   <mat-label>Nome</mat-label>
   <input formControlName="nome" matInput />
+  <mat-icon matSuffix>description</mat-icon>
+</mat-form-field>
+
+<mat-form-field class="fullWidth" appearance="fill">
+  <mat-label>CPF</mat-label>
+  <input formControlName="cpf" mask="000.000.000-00" matInput />
+  <mat-icon matSuffix>123</mat-icon>
+</mat-form-field>
+
+<mat-form-field class="fullWidth" appearance="fill">
+  <mat-label>Endereço</mat-label>
+  <input formControlName="endereco" matInput />
+  <mat-icon matSuffix>place</mat-icon>
+</mat-form-field>
+
+<mat-form-field class="fullWidth" appearance="fill">
+  <mat-label>Bairro</mat-label>
+  <input formControlName="bairro" matInput />
   <mat-icon matSuffix>place</mat-icon>
 </mat-form-field>
 

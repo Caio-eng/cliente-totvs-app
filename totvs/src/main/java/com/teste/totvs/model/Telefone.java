@@ -84,5 +84,11 @@ public class Telefone implements Serializable {
 	public String toString() {
 		return "Telefone [id=" + id + ", numero=" + numero + ", cliente=" + cliente + "]";
 	}
+	
+	 public static Telefone fromString(String numero) {
+	        Telefone telefone = new Telefone();
+	        telefone.setNumero(numero);
+	        return telefone;
+	    }
 
 }

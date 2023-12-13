@@ -5,7 +5,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.teste.totvs.model.Cliente;
 import com.teste.totvs.model.Telefone;
@@ -25,7 +27,7 @@ public class ClienteService {
 
 	public Cliente listarPeloId(Long id) {
 		Optional<Cliente> obj = clienteRepository.findById( id );
-		return obj.orElseThrow( () -> new RuntimeException( "Objeto não encontrado! Id: " + id ) );
+		return obj.orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado! Id: " + id ) );
 	}
 
 	@Transactional
@@ -34,7 +36,7 @@ public class ClienteService {
 		Optional<Cliente> clienteExistente = buscarClientePorCpf( cliente.getCpf() );
 
 		if ( clienteExistente.isPresent() ) {
-			throw new RuntimeException( "Cliente com CPF já cadastrado." );
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cliente com CPF já cadastrado." );
 		}
 
 		validarCaracteresTelefone( cliente.getTelefones() );
@@ -42,7 +44,7 @@ public class ClienteService {
 		for ( Telefone telefone : cliente.getTelefones() ) {
 			Optional<Cliente> clienteComTelefone = clienteRepository.findByTelefonesNumero( telefone.getNumero() );
 			if ( clienteComTelefone.isPresent() && !clienteComTelefone.get().getId().equals( cliente.getId() ) ) {
-				throw new RuntimeException( "Telefone já vinculado a outro cliente." );
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Telefone já vinculado a outro cliente." );
 			}
 		}
 
@@ -52,11 +54,11 @@ public class ClienteService {
 	@Transactional
 	public Cliente atualizarCliente(Long clienteId, Cliente clienteAtualizado) {
 		Cliente clienteExistente = clienteRepository.findById( clienteId )
-				.orElseThrow( () -> new RuntimeException( "Cliente não encontrado com o ID: " + clienteId ) );
+				.orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado com o ID: " + clienteId ) );
 
 		Optional<Cliente> clienteExistenteComCpf = buscarClientePorCpf( clienteAtualizado.getCpf() );
 		if ( clienteExistenteComCpf.isPresent() && !clienteExistenteComCpf.get().getId().equals( clienteId ) ) {
-			throw new RuntimeException( "CPF já cadastrado para outro cliente." );
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "CPF já cadastrado para outro cliente." );
 		}
 
 		clienteExistente.setNome( clienteAtualizado.getNome() );
@@ -69,7 +71,7 @@ public class ClienteService {
 			if ( telefone.getId() != null ) {
 				Telefone telefoneExistente = clienteExistente.getTelefones().stream()
 						.filter( t -> t.getId().equals( telefone.getId() ) ).findFirst()
-						.orElseThrow( () -> new RuntimeException( "Telefone não encontrado: " + telefone.getId() ) );
+						.orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Telefone não encontrado: " + telefone.getId() ) );
 
 				telefoneExistente.setNumero( telefone.getNumero() );
 			}
@@ -81,19 +83,23 @@ public class ClienteService {
 	}
 
 	private void validarCaracteresTelefone(List<Telefone> telefones) {
-		for ( Telefone telefone : telefones ) {
-			if ( !isNumeroTelefoneValido( telefone.getNumero() ) ) {
-				throw new RuntimeException( "Número de telefone inválido: " + telefone.getNumero() );
-			}
-		}
+	    for (Telefone telefone : telefones) {
+	        if (telefone.getNumero() == null || telefone.getNumero().isEmpty()) {
+	            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Número de telefone não pode ser nulo ou vazio");
+	        }
+
+	        if (!isNumeroTelefoneValido(telefone.getNumero())) {
+	            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Número de telefone inválido: " + telefone.getNumero());
+	        }
+	    }
 	}
 
+
 	private boolean isNumeroTelefoneValido(String numero) {
-		// Utilizando uma expressão regular para verificar se o número possui o formato esperado
-		// A expressão regular considera os seguintes formatos comuns para números de telefone no Brasil:
-		// - (XX) XXXX-XXXX (com DDD)
-		// - XXXX-XXXX (sem DDD)
-		return numero.matches( "^\\(?(\\d{2})\\)?[-.\\s]?\\d{4,5}[-.\\s]?\\d{4}$" );
+	    // - (XX) XXXX-XXXX (com DDD)
+	    // - XXXX-XXXX (sem DDD)
+	    return numero.matches("^\\(?(\\d{2})\\)?[-.\\s]?\\d{4,5}[-.\\s]?\\d{4}$") &&
+	            !numero.matches("(\\d)(?:\\1{3,})?\\d*");
 	}
 
 	@Transactional
@@ -104,7 +110,7 @@ public class ClienteService {
 	@Transactional
 	public void deletarCliente(Long id) {
 		Cliente clienteExistente = clienteRepository.findById( id )
-				.orElseThrow( () -> new RuntimeException( "Cliente não encontrado com o ID: " + id ) );
+				.orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado com o ID: " + id ) );
 
 		List<Telefone> telefonesParaRemover = clienteExistente.getTelefones().stream()
 				.filter( t -> clienteExistente.getTelefones().stream()

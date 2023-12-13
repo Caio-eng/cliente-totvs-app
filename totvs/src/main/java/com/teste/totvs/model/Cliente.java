@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
 
 import jakarta.persistence.CascadeType;
@@ -26,6 +27,7 @@ public class Cliente implements Serializable {
 	private Long id;
 
 	@Column(nullable = false, length = 50)
+	@Length(min = 12, message = "O Nome deve ser maior do que 12 caracteres")
 	private String nome;
 
 	@Column(unique = true, nullable = false)

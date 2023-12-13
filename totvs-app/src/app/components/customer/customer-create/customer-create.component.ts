@@ -1,7 +1,7 @@
 import { CustomerService } from './../../../services/customer.service';
 import { Cliente } from 'src/app/models/cliente';
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoadingService } from 'src/app/services/loading.service';
@@ -29,9 +29,24 @@ export class CustomerCreateComponent {
   ) {
     this.form = new FormGroup({
       nome: new FormControl(null, Validators.minLength(3)),
-      cpf: new FormControl(null),
+      cpf: new FormControl(null, Validators.required),
       endereco: new FormControl(null),
-    })
+      bairro: new FormControl(null),
+      telefones: new FormArray([]),
+    });
+
+  }
+
+  get telefonesFormArray() {
+    return this.form.get('telefones') as FormArray;
+  }
+
+  addTelefone(): void {
+    this.telefonesFormArray.push(new FormControl(''));
+  }
+
+  removeTelefone(index: number): void {
+    this.telefonesFormArray.removeAt(index);
   }
 
 
@@ -53,6 +68,8 @@ export class CustomerCreateComponent {
         nome: this.customer.nome,
         cpf: this.customer.cpf,
         endereco: this.customer.endereco,
+        bairro: this.customer.bairro,
+        telefones: this.customer.telefones
       });
       this.loadingService.setLoading(false);
     });
@@ -68,6 +85,13 @@ export class CustomerCreateComponent {
       this.customer.nome = formValues.nome;
       this.customer.cpf = formValues.cpf;
       this.customer.endereco = formValues.endereco;
+      this.customer.bairro = formValues.bairro;
+      this.customer.telefones = formValues.telefones.map((telefone: string) => {
+        // Adicione a lógica para remover não numéricos e manter apenas os dígitos
+        const numericDigits = telefone.replace(/[^\d]/g, '');
+        // Adicione a lógica para adicionar a máscara desejada (000000-0000)
+        return numericDigits.replace(/(\d{6})(\d{4})/, '$1-$2');
+      });
     }
     if (this.customer.id) {
       this.loadingService.setLoading(true);
