@@ -1,85 +1,91 @@
-Como Clonar o Projeto do Git
-
+Clonando e Executando o Projeto Spring Boot
 Este repositório contém um projeto Java utilizando o framework Spring Boot. Abaixo estão as instruções para clonar o projeto e começar a trabalhar.
 
 Pré-requisitos
-
-Antes de começar, certifique-se de que você tenha o Git e o Java instalados em sua máquina.
-
-Backend: 
+Antes de começar, certifique-se de ter o Git, o Java e o Spring Boot instalados em sua máquina.
 
 Git
-
 Java
-
 Spring Boot
-
-Clonar o Repositório
-
+Clonando o Repositório
 Abra o terminal ou prompt de comando no diretório onde deseja clonar o projeto.
 
 Execute o seguinte comando:
 
-bash -> copia a instrução abaixo
-
+bash
+Copy code
 git clone https://github.com/seu-usuario/seu-repositorio.git
+Certifique-se de substituir seu-usuario e seu-repositorio pelos seus dados do GitHub.
 
-Levando em consideração que você está utilizando o Spring Tool Suite
+Importando e Executando no Spring Tool Suite
+Abra o Spring Tool Suite.
 
-1 - Abra o Spring, clique em File -> import -> Existing Maven Project -> Next -> Browse 
+Clique em File -> Import -> Existing Maven Project -> Next -> Browse.
 
-2 - Selecione o Projeto totvs e aperte Finish, aguarde importar as dependências
+Selecione o diretório do projeto clonado e clique em Finish.
 
-3 - Abra o projeto, vá em TotvsApplication, abra e -> Botão direito no Mouse, Run As -> E clique em Spring Boot App, e espere iniciar
+Aguarde as dependências serem importadas.
 
-Rotas para caso queira testar no Postaman
+Abra o projeto, vá em TotvsApplication, clique com o botão direito do mouse, escolha Run As -> Spring Boot App e aguarde iniciar.
 
- Post: http://localhost:8080/clientes
- {
-	"nome": "João da Silva",
-	"cpf": "11330966031",
-	"endereco": "Rua ABC, 123",
-	"bairro": "Centro",
-	"telefones": [
-		{"numero": "625542-8525"},	
-		{"numero": "623525-5552"}
-	]
-}
-Put: http://localhost:8080/clientes/1
+Rotas para Testar no Postman
+POST: http://localhost:8080/clientes
+
+json
+Copy code
 {
-	"nome": "João da Atualizado",
-	"cpf": "11330966031",
-	"endereco": "Rua ABC, 123",
-	"bairro": "Centro",
-	"telefones": [
-		{"numero": "625542-8525"},	
-		{"numero": "623525-5552"}
-	]
+  "nome": "João da Silva",
+  "cpf": "11330966031",
+  "endereco": "Rua ABC, 123",
+  "bairro": "Centro",
+  "telefones": [
+    {"numero": "625542-8525"},
+    {"numero": "623525-5552"}
+  ]
 }
+PUT: http://localhost:8080/clientes/1
 
-Get: http://localhost:8080/clientes
+json
+Copy code
+{
+  "nome": "João da Atualizado",
+  "cpf": "11330966031",
+  "endereco": "Rua ABC, 123",
+  "bairro": "Centro",
+  "telefones": [
+    {"numero": "625542-8525"},
+    {"numero": "623525-5552"}
+  ]
+}
+GET: http://localhost:8080/clientes
 
-GetById: http://localhost:8080/clientes/1
+GET por ID: http://localhost:8080/clientes/1
 
+Instruções para o Front-end Angular
+Pré-requisitos
+Antes de começar, certifique-se de ter o Git, o Node.js e o Angular CLI instalados em sua máquina.
 
--------------------------------------------------------------------
-Instrução para o Front:
+Git
+Node.js
+Angular CLI
+Clonando e Executando o Projeto Angular
+Abra o terminal ou prompt de comando na pasta totvs-app do projeto Angular.
 
-Git,
- Node,
- Visual Studio.
- 
-Clonar o Repositório
+Execute o seguinte comando para instalar as dependências:
 
-Abra o bash na pasta totvs-app.
+bash
+Copy code
+npm install
+Se o Angular CLI não estiver instalado globalmente, execute:
 
-Aperte npm install
+bash
+Copy code
+npm install -g @angular/cli
+Inicie o servidor de desenvolvimento:
 
-npm install -g @angular/cli  <- caso não tenha
+bash
+Copy code
+ng serve
+Abra um navegador e acesse http://localhost:4200 para visualizar a aplicação Angular.
 
-agora aperte ng serve
-
-espere iniciar, coloque o host http://localhost:4200/ em qualquer navegador
-
-e pronto e só apertar Novo Cliente, cadastro, caso queria editar clique no lapes, caso querira delerar na lixeira, e pesquisa pela barra
-
+Interaja com a aplicação para criar, editar e excluir cliente
