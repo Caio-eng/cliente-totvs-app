@@ -12,12 +12,20 @@
 
   <mat-sidenav #sidenav mode="side" class="nav-list" [@drawerState]="isDrawerOpen ? 'open' : 'closed'" >
     <mat-nav-list >
-      <a mat-list-item routerLink="customer" (click)="toggleDrawer()">
+      <a mat-list-item routerLink="cliente" (click)="toggleDrawer()">
         <div>
           <i class="material-icons" *ngIf="isWideScreen">people</i>
           <span>Clientes</span>
         </div>
       </a>
+
+      <a mat-list-item href="https://github.com/Caio-eng/cliente-totvs-app" (click)="toggleDrawer()" target="_blank">
+        <div>
+            <i class="material-icons" *ngIf="isWideScreen">link</i>
+            <span>Projeto no GitHub</span>
+        </div>
+    </a>
+
 
     </mat-nav-list>
   </mat-sidenav>

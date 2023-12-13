@@ -9,11 +9,12 @@ const routes: Routes = [
   {
     path: '', component: NavComponent,  children: [
 
-      { path: 'customer', component: CustomerListComponent },
-      { path: 'customer/create', component: CustomerCreateComponent },
-      { path: 'customer/edit/:id', component: CustomerCreateComponent },
-      { path: 'customer/delete/:id', component: CustomerDeleteComponent },
+      { path: 'cliente', component: CustomerListComponent },
+      { path: 'cliente/create', component: CustomerCreateComponent },
+      { path: 'cliente/edit/:id', component: CustomerCreateComponent },
+      { path: 'cliente/delete/:id', component: CustomerDeleteComponent },
 
+      { path: '**', redirectTo: 'cliente' }
     ]
   }
 ];

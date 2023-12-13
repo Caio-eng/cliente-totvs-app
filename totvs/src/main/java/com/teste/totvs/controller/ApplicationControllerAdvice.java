@@ -14,9 +14,18 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.teste.totvs.controller.exeception.ApiErrors;
 
+/**
+ * Classe que fornece tratamento global para exceções na aplicação.
+ */
 @RestControllerAdvice
 public class ApplicationControllerAdvice {
 
+	/**
+	 * Trata exceções relacionadas a erros de validação nos dados de entrada.
+	 *
+	 * @param ex A exceção de validação.
+	 * @return Objeto ApiErrors contendo mensagens de erro de validação.
+	 */
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	public ApiErrors handleValidationsErros(MethodArgumentNotValidException ex) {
@@ -26,6 +35,12 @@ public class ApplicationControllerAdvice {
 		return new ApiErrors(messages);
 	}
 
+	/**
+	 * Trata exceções do tipo ResponseStatusException.
+	 *
+	 * @param ex A exceção ResponseStatusException.
+	 * @return Resposta HTTP contendo mensagens de erro e código de status.
+	 */
 	@SuppressWarnings("rawtypes")
 	@ExceptionHandler(ResponseStatusException.class)
 	public ResponseEntity handleResponseStatusExeption(ResponseStatusException ex) {
@@ -34,5 +49,4 @@ public class ApplicationControllerAdvice {
 		ApiErrors apiErrors = new ApiErrors(messageError);
 		return new ResponseEntity<>(apiErrors, codeStatus);
 	}
-
 }

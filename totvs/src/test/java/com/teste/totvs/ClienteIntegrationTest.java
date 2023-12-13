@@ -48,8 +48,8 @@ public class ClienteIntegrationTest {
 						  "endereco": "Rua ABC, 123",
 						  "bairro": "Centro",
 						  "telefones": [
-						    {"numero": "6298116-5459"},	
-						    {"numero": "6298526-7088"}
+						    {"numero": "628116-5459"},	
+						    {"numero": "628526-7088"}
 						  ]
 						} """ )
 			.exchange()
@@ -69,8 +69,8 @@ public class ClienteIntegrationTest {
 						  "endereco": "Rua ABC, 123",
 						  "bairro": "Centro",
 						  "telefones": [
-						    {"numero": "6298116-5459"},
-						    {"numero": "6298526-7088"}
+						    {"numero": "628116-5459"},
+						    {"numero": "628526-7088"}
 						  ]
 						} """ )
 			.exchange()
